@@ -9,6 +9,15 @@
     <SongComponent Song="song" OnSongChanged="UpdateAddedSong"></SongComponent>
 }
 
+<table>
+    <tr>
+        <td colspan="2" style="text-align:center">
+            <input class="btn-primary" type="submit" value="Save" @onclick="AlbumSave" />
+            <input class="btn-danger" type="button" value="Cancel" />
+        </td>
+    </tr>
+</table>
+
 
 @code {
 
