@@ -1,0 +1,54 @@
+﻿@page "/albumadd"
+
+<h3>AlbumAdd</h3>
+
+<button @onclick="AddSong">Add Song</button>
+
+@foreach (var song in Album.Songs)
+{
+    <SongComponent Song="song" OnSongChanged="UpdateAddedSong"></SongComponent>
+}
+
+
+@code {
+
+    public Album Album = new Album() { Songs = new List<Song>() };
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Album.Songs.Add(new Song() { Number = Album.Songs.Count + 1 });
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+
+    }
+
+    public void AddSong()
+    {
+        Album.Songs.Add(new Song() { Number = Album.Songs.Count + 1 });
+    }
+
+    public async void UpdateAddedSong(Song song)
+    {
+        var songToUpdate = Album.Songs.FirstOrDefault(s => s.Number == song.Number);
+
+        if (songToUpdate != null)
+        {
+            songToUpdate.Extension = song.Extension;
+            songToUpdate.Name = song.Name;
+            songToUpdate.Path = song.Path;
+        }
+    }
+
+    protected async Task AlbumSave()
+    {
+
+    }
+
+}
