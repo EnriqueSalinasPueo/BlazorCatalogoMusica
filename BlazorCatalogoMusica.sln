@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCatalogoMusica", "BlazorCatalogoMusica\BlazorCatalogoMusica.csproj", "{810E1797-CD09-417C-829D-BA895F47F6F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorCatalogoMusica.Data", "BlazorCatalogoMusica.Data\BlazorCatalogoMusica.Data.csproj", "{91A9CD75-697E-4FDA-956F-34B316B828A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCatalogoMusica.Data", "BlazorCatalogoMusica.Data\BlazorCatalogoMusica.Data.csproj", "{91A9CD75-697E-4FDA-956F-34B316B828A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorCatalogoMusica.Models", "BlazorCatalogoMusica.Models\BlazorCatalogoMusica.Models.csproj", "{9DA23363-8D83-4D78-8EE2-4D6B2447E544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCatalogoMusica.Models", "BlazorCatalogoMusica.Models\BlazorCatalogoMusica.Models.csproj", "{9DA23363-8D83-4D78-8EE2-4D6B2447E544}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
 ﻿using BlazorCatalogoMusica.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,12 @@ namespace BlazorCatalogoMusica.Data.Services
             throw new NotImplementedException();
         }
 
-        public Task<Album> GetAlbumDetails(int id)
+        public async Task<Album> GetAlbumDetails(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Albums
+                  .Where(s => s.Id == id)
+                  .Include(s => s.Songs)
+                  .FirstOrDefaultAsync();
         }
 
         public Task<IEnumerable<Album>> GetAlbums()
@@ -34,7 +38,7 @@ namespace BlazorCatalogoMusica.Data.Services
         public async Task<bool> InsertAlbum(Album album)
         {
             _context.Add(album);
-           return await _context.SaveChangesAsync() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public Task<bool> UpdateAlbum(Album album)
