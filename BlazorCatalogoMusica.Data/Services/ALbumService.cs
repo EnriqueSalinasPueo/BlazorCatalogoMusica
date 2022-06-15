@@ -41,9 +41,11 @@ namespace BlazorCatalogoMusica.Data.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> UpdateAlbum(Album album)
+        public async Task<bool> UpdateAlbum(Album album)
         {
-            throw new NotImplementedException();
+            _context.Update(album);
+
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
