@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorCatalogoMusica.Data.Services
 {
-    interface IAlbumService
+    public interface IAlbumService
     {
         Task<IEnumerable<Album>> GetAlbums();
         Task<Album> GetAlbumDetails(int id);

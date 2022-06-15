@@ -1,6 +1,7 @@
 ﻿@page "/albumadd"
 
 @inject NavigationManager navigationManager
+@inject IAlbumService AlbumService
 
 @if (album == null)
 {
@@ -14,6 +15,10 @@ else
             <tr>
                 <td>Title</td>
                 <td><InputText class="form-control col-sm-5" @bind-Value="@album.Title"></InputText></td>
+            </tr>
+            <tr>
+                <td>Cover</td>
+                <td><InputFile OnChange="LoadAlbumCover" ></InputFile></td>
             </tr>
             <tr>
                 <td>Description</td>
@@ -31,7 +36,7 @@ else
 
         <h3>
             Songs
-            <button class="btn-primary" @onclick="AddSong">Add Song</button>
+            <button type="button" class="btn-primary" @onclick="AddSong">Add Song</button>
         </h3>
 
         @foreach (var song in album.Songs)
@@ -55,7 +60,8 @@ else
 
 @code {
 
-    public Album album = new Album() { Songs = new List<Song>() };
+    public Album album = new Album() {ReleaseDate = DateTime.Now,
+                                      Songs = new List<Song>() };
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,9 +83,9 @@ else
         album.Songs.Add(new Song() { Number = album.Songs.Count + 1 });
     }
 
-    public async void UpdateAddedSong(Song song)
+    public void UpdateAddedSong(Song song)
     {
-        var songToUpdate = album.Songs.FirstOrDefault(s => s.Number == song.Number);
+        var songToUpdate =  album.Songs.FirstOrDefault(s => s.Number == song.Number);
 
         if (songToUpdate != null)
         {
@@ -89,9 +95,19 @@ else
         }
     }
 
+    public async Task LoadAlbumCover(InputFileChangeEventArgs e)
+    {
+        var format = "image/png";
+        var resizedFile = await e.File.RequestImageFileAsync(format, 200, 200);
+        var buffer = new byte[resizedFile.Size];
+
+        await resizedFile.OpenReadStream().ReadAsync(buffer);
+        album.CoverImage = buffer;
+    }
+
     protected async Task AlbumSave()
     {
-        var a = album.Songs;
+        await AlbumService.InsertAlbum(album);
     }
 
     public void Cancel()
