@@ -8,4 +8,8 @@
     <ProjectReference Include="..\BlazorCatalogoMusica.Data\BlazorCatalogoMusica.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\songs\" />
+  </ItemGroup>
+
 </Project>

@@ -29,3 +29,5 @@ Una vez tenemos definido el DbContext podemos ejecutar los siguientes comandos e
 
 Con estos pasos desde nuestra clases de la app entityFramework genera la estructura de base de datos que necesitamos para funcionar.
 
+Si modificamos las clases de nuestro proyecto que tenemos mapeadas hay que repetir el proceso para que se vea reflejado en la base de datos.
+
