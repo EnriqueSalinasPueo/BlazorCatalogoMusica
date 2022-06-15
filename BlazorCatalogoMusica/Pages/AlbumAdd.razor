@@ -42,15 +42,21 @@ else
 
         @foreach (var song in album.Songs)
         {
-            <SongComponent Song="song" OnSongChanged="UpdateAddedSong"></SongComponent>
+            <SongComponent Song="song" OnSongChanged="UpdateAddedSong" OnSongRemoved="RemoveSong"></SongComponent>
         }
 
         <table>
             <tr>
                 <td colspan="2" style="text-align:center">
                     <input class="btn-success" type="submit" value="Save" @onclick="AlbumSave" />
-                    <input class="btn-danger" type="button" value="Cancel" @onclick="Cancel" />
+                    <input class="btn-secondary" type="button" value="Cancel" @onclick="Cancel" />
                 </td>
+                @if (id > 0)
+                {
+            <td>
+                <input class="btn-danger" type="button" value="Delete" @onclick="AlbumDlete" />
+            </td>
+                }
             </tr>
         </table>
 
@@ -95,12 +101,18 @@ else
 
     }
 
-    public void AddSong()
+    protected void AddSong()
     {
         album.Songs.Add(new Song() { Number = album.Songs.Count + 1 });
     }
 
-    public void UpdateAddedSong(Song song)
+    protected async Task AlbumDlete()
+    {
+        await AlbumService.DeleteAlbum(album);
+        NavigateToHome();
+    }
+
+    protected void UpdateAddedSong(Song song)
     {
         var songToUpdate = album.Songs.FirstOrDefault(s => s.Number == song.Number);
 
@@ -112,7 +124,7 @@ else
         }
     }
 
-    public async Task LoadAlbumCover(InputFileChangeEventArgs e)
+    protected async Task LoadAlbumCover(InputFileChangeEventArgs e)
     {
         var format = "image/png";
         var resizedFile = await e.File.RequestImageFileAsync(format, 200, 200);
@@ -125,7 +137,7 @@ else
     protected async Task AlbumSave()
     {
 
-        if(id > 0)
+        if (id > 0)
         {
             await AlbumService.UpdateAlbum(album);
         }
@@ -138,12 +150,19 @@ else
         NavigateToHome();
     }
 
-    public void Cancel()
+    protected void RemoveSong(Song song)
+    {
+        var songToRemove = album.Songs.FirstOrDefault(s => s.Number == song.Number);
+
+        album.Songs.Remove(songToRemove);
+    }
+
+    protected void Cancel()
     {
         NavigateToHome();
     }
 
-    public void NavigateToHome()
+    protected void NavigateToHome()
     {
         navigationManager.NavigateTo("/");
     }

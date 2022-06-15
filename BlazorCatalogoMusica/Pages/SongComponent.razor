@@ -7,13 +7,13 @@
     </tr>
     <tr>
         <td>Upload</td>
-        <td><InputFile OnChange="LoadSong" /></td>
-    </tr>
-    <!--tr>
         <td>
-            <button class="btn-warning" @onclick="UpdateValueSong">Update</button>
+            <p>
+                <InputFile OnChange="LoadSong" />
+                <button class="btn-danger" @onclick="RemoveSong">Remove</button>
+            </p>
         </td>
-    </tr>-->
+    </tr>
 </table>
 
 
@@ -25,7 +25,10 @@
     [Parameter]
     public EventCallback<Song> OnSongChanged { get; set; }
 
-  
+    [Parameter]
+    public EventCallback<Song> OnSongRemoved { get; set; }
+
+
 
     async Task LoadSong(InputFileChangeEventArgs e)
     {
@@ -43,6 +46,10 @@
         }
 
         await OnSongChanged.InvokeAsync(Song);
+    }
+    public async Task RemoveSong()
+    {
+        await OnSongRemoved.InvokeAsync(Song);
     }
 
 }
