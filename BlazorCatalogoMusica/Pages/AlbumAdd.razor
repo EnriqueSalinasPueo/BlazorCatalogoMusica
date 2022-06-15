@@ -1,33 +1,67 @@
 ﻿@page "/albumadd"
 
-<h3>AlbumAdd</h3>
+@inject NavigationManager navigationManager
 
-<button @onclick="AddSong">Add Song</button>
-
-@foreach (var song in Album.Songs)
+@if (album == null)
 {
-    <SongComponent Song="song" OnSongChanged="UpdateAddedSong"></SongComponent>
+    <p><em>Loading...</em></p>
 }
+else
+{
+    <EditForm Model="@album">
 
-<table>
-    <tr>
-        <td colspan="2" style="text-align:center">
-            <input class="btn-primary" type="submit" value="Save" @onclick="AlbumSave" />
-            <input class="btn-danger" type="button" value="Cancel" />
-        </td>
-    </tr>
-</table>
+        <table class="table">
+            <tr>
+                <td>Title</td>
+                <td><InputText class="form-control col-sm-5" @bind-Value="@album.Title"></InputText></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><InputText class="form-control col-sm-5" @bind-Value="@album.Descripcion"></InputText></td>
+            </tr>
+            <tr>
+                <td>Release Date</td>
+                <td><InputDate class="form-control col-sm-5" @bind-Value="@album.ReleaseDate"></InputDate></td>
+            </tr>
+            <tr>
+                <td>Author</td>
+                <td><InputText class="form-control col-sm-5" @bind-Value="@album.Author"></InputText></td>
+            </tr>
+        </table>
+
+        <h3>
+            Songs
+            <button class="btn-primary" @onclick="AddSong">Add Song</button>
+        </h3>
+
+        @foreach (var song in album.Songs)
+        {
+            <SongComponent Song="song" OnSongChanged="UpdateAddedSong"></SongComponent>
+        }
+
+        <table>
+            <tr>
+                <td colspan="2" style="text-align:center">
+                    <input class="btn-success" type="submit" value="Save" @onclick="AlbumSave" />
+                    <input class="btn-danger" type="button" value="Cancel" @onclick="Cancel" />
+                </td>
+            </tr>
+        </table>
+
+    </EditForm>
+
+}
 
 
 @code {
 
-    public Album Album = new Album() { Songs = new List<Song>() };
+    public Album album = new Album() { Songs = new List<Song>() };
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            Album.Songs.Add(new Song() { Number = Album.Songs.Count + 1 });
+            album.Songs.Add(new Song() { Number = album.Songs.Count + 1 });
         }
         catch (Exception)
         {
@@ -40,12 +74,12 @@
 
     public void AddSong()
     {
-        Album.Songs.Add(new Song() { Number = Album.Songs.Count + 1 });
+        album.Songs.Add(new Song() { Number = album.Songs.Count + 1 });
     }
 
     public async void UpdateAddedSong(Song song)
     {
-        var songToUpdate = Album.Songs.FirstOrDefault(s => s.Number == song.Number);
+        var songToUpdate = album.Songs.FirstOrDefault(s => s.Number == song.Number);
 
         if (songToUpdate != null)
         {
@@ -57,7 +91,17 @@
 
     protected async Task AlbumSave()
     {
+        var a = album.Songs;
+    }
 
+    public void Cancel()
+    {
+        NavigateToHome();
+    }
+
+    public void NavigateToHome()
+    {
+        navigationManager.NavigateTo("/");
     }
 
 }
